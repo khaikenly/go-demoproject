@@ -10,6 +10,7 @@ type UserRepository struct {
 	Db *sql.DB
 }
 
+//imlement IUserRepo
 func NewUserRepository(db *sql.DB) IUserRepository {
 	return &UserRepository{
 		Db: db,
@@ -28,7 +29,7 @@ func (u *UserRepository) Select() ([]models.User, error) {
 	for rows.Next() {
 		user := models.User{}
 
-		err := rows.Scan(&user.Id, &user.Username, &user.Password, &user.CreatedAt)
+		err := rows.Scan(&user.Id, &user.UserName, &user.Password, &user.CreatedAt)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -44,7 +45,7 @@ func (u *UserRepository) Select() ([]models.User, error) {
 
 func (u *UserRepository) Insert(user *models.User) error {
 	query := `INSERT INTO users (username, password, created_at) VALUES (?, ?, ?)`
-	result, err := u.Db.Exec(query, user.Username, user.Password, user.CreatedAt)
+	result, err := u.Db.Exec(query, user.UserName, user.Password, user.CreatedAt)
 	if err != nil {
 		log.Fatal(err)
 	}

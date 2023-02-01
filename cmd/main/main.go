@@ -24,26 +24,7 @@ func main() {
 
 	defer db.SQL.Close()
 
-	// UserRepository := repositories.NewUserRepository(db.SQL)
-	// users, err := UserRepository.Select()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// fmt.Println(users)
-
-	// u := &models.User{
-	// 	Username:  "khai123",
-	// 	Password:  "12312312",
-	// 	CreatedAt: time.Now(),
-	// }
-
-	// e := UserRepository.Insert(u)
-	// if e != nil {
-	// 	log.Fatal(e)
-	// }
-
 	routes := routers.MyRouter{}
-	r := routes.Routes(mux.NewRouter())
+	r := routes.Routes(mux.NewRouter(), db.SQL)
 	log.Fatal(http.ListenAndServe(":8082", r))
 }
